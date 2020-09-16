@@ -2973,11 +2973,11 @@ void GCS_MAVLINK::handle_data_packet(const mavlink_message_t &msg)
 void GCS_MAVLINK::handle_vision_position_delta(const mavlink_message_t &msg)
 {
 #if HAL_VISUALODOM_ENABLED
-    AP_VisualOdom *visual_odom = AP::visualodom();
-    if (visual_odom == nullptr) {
-        return;
-    }
-    visual_odom->handle_vision_position_delta_msg(msg);
+    // AP_VisualOdom *visual_odom = AP::visualodom();
+    // if (visual_odom == nullptr) {
+    //     return;
+    // }
+    // visual_odom->handle_vision_position_delta_msg(msg);
 #endif
 }
 
