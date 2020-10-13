@@ -41,6 +41,7 @@ MAV_MODE GCS_MAVLINK_Plane::base_mode() const
     case Mode::Number::AUTO:
     case Mode::Number::RTL:
     case Mode::Number::LOITER:
+    case Mode::Number::THERMAL:
     case Mode::Number::AVOID_ADSB:
     case Mode::Number::GUIDED:
     case Mode::Number::CIRCLE:
@@ -266,7 +267,7 @@ int16_t GCS_MAVLINK_Plane::vfr_hud_throttle() const
 
 float GCS_MAVLINK_Plane::vfr_hud_climbrate() const
 {
-#if SOARING_ENABLED == ENABLED
+#if HAL_SOARING_ENABLED
     if (plane.g2.soaring_controller.is_active()) {
         return plane.g2.soaring_controller.get_vario_reading();
     }
@@ -966,9 +967,8 @@ MAV_RESULT GCS_MAVLINK_Plane::handle_command_long_packet(const mavlink_command_l
         // controlled modes (e.g., MANUAL, TRAINING)
         // this command should be ignored since it comes in from GCS
         // or a companion computer:
-        if ((plane.control_mode != &plane.mode_guided) &&
-            (plane.control_mode != &plane.mode_auto) &&
-            (plane.control_mode != &plane.mode_avoidADSB)) {
+        if ((!plane.control_mode->is_guided_mode()) &&
+            (plane.control_mode != &plane.mode_auto)) {
             // failed
             return MAV_RESULT_FAILED;
         }
