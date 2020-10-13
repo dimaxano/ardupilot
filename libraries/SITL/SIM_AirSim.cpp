@@ -309,6 +309,8 @@ void AirSim::recv_fdm(const sitl_input& input)
 
     position = home.get_distance_NED(location);
 
+    printf("NED POSITION: x - %f, y - %f, z - %f\n", position.x, position.y, position.z);
+
     dcm.from_euler(state.pose.roll, state.pose.pitch, state.pose.yaw);
 
     if (last_timestamp) {
